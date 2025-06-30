@@ -1,8 +1,9 @@
+// models/Movie.js
 import mongoose from "mongoose";
 
 const movieSchema = new mongoose.Schema(
   {
-    _id: { type: String, required: true },
+    tmdbId: { type: String, required: true, unique: true },
     title: { type: String, required: true },
     overview: { type: String, required: true },
     poster_path: { type: String, required: true },
@@ -18,5 +19,5 @@ const movieSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Movie = mongoose.model('Movie', movieSchema); // ✅ Correct model name
+const Movie = mongoose.model("Movie", movieSchema);
 export default Movie;

@@ -3,21 +3,21 @@ import mongoose from "mongoose";
 const bookingSchema = new mongoose.Schema(
   {
     user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // Reference to User model
+      type: String, // Clerk's user ID is a string like "user_abc123"
+      ref: "User",
       required: true,
     },
     show: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Show", // Reference to Show model
+      ref: "Show",
       required: true,
     },
     amount: {
       type: Number,
       required: true,
     },
-    bookedSeats: {
-      type: [String], // array of seat IDs or seat numbers
+    bookingSeats: { // ✅ Correct naming
+      type: [String],
       required: true,
     },
     isPaid: {

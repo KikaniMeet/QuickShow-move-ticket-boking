@@ -1,9 +1,16 @@
-import express from "express"
-import { getFavorites, getUserBookings, updateFavorite } from "../controllers/userController";
+import express from "express";
+import {
+  getUserBookings,
+  updateFavorite,
+  getFavorites
+} from "../controllers/userController.js";
+// import { authenticateUser } from "../middleware/authenticate.js"; // ✅ Import the middleware
 
-const userRouter= express.Router();
-userRouter.get('/bookings',getUserBookings)
-userRouter.post('/update-favrite',updateFavorite)
-userRouter.post('/favorites',getFavorites)
+const userRouter = express.Router();
+
+// ✅ Use middleware to ensure routes are protected
+userRouter.get('/bookings',getUserBookings);
+userRouter.post('/update-favorite',updateFavorite);
+userRouter.get('/favorites',getFavorites);
 
 export default userRouter;

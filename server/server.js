@@ -5,10 +5,11 @@ import connectDB from './configs/db.js';
 import { clerkMiddleware } from '@clerk/express'
 import { serve } from "inngest/express";
 import { inngest, functions } from "./inngest/index.js" 
-import showRouter from '../routes/showRoutes.js';
-import bookingRouter from '../routes/bookingRoutes.js';
-import adminRouter from './routes/adminRoutes.js'; // <-- also fix this
+import bookingRouter from './routes/bookingRoutes.js';
+import adminRouter from './routes/adminRoutes.js';
 import userRouter from './routes/userRoutes.js'
+import showRouter from './Routes/showRoutes.js';
+
 
 const app = express();
 const Port = 3000;

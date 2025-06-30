@@ -1,13 +1,16 @@
 import express from "express";
-import { protectAdmin } from "../middleware/auth.js";
-import { addShow, getNowPlayingMovie, getShow, getShows } from "../controllers/showController.js";
+import {
+  getNowPlayingMovie,
+  addShow,
+  getShows,
+  getShow
+} from "../controllers/showController.js";
 
-const showRouter = express.Router();
+const router = express.Router();
 
-// Routes
-showRouter.get('/now-playing', getNowPlayingMovie);
-showRouter.post('/add', addShow);
-showRouter.get("/all", getShows);
-showRouter.get("/:movieId", getShow);
+router.get("/now-playing", getNowPlayingMovie);
+router.post("/add", addShow);           // ✅ POST method
+router.get("/all", getShows);
+router.get("/:movieId", getShow);
 
-export default showRouter;
+export default router;

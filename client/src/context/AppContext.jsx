@@ -1,7 +1,7 @@
 import { useUser, useAuth } from "@clerk/clerk-react";
-import { createContext, useContext, useState, useEffect, use } from "react";
-import axios from "axios"; 
-import { useLocation,useNavigate } from "react-router-dom";
+import { createContext, useContext, useState, useEffect } from "react";
+import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 export const AppContext = createContext();
@@ -12,6 +12,8 @@ export const AppProvider = ({ children }) => {
     const [isAdmin, setAdmin] = useState(false);
     const [shows, setShows] = useState([]);
     const [favoriteMovies, setFavoriteMovies] = useState([]);
+
+    const image_base_url = import.meta.env.VITE_TMDB_IMAGE_BASE_URL;
 
     const { user } = useUser();
     const { getToken } = useAuth();
@@ -25,60 +27,67 @@ export const AppProvider = ({ children }) => {
                     Authorization: `Bearer ${await getToken()}`
                 }
             });
-            setIsAdmin(data.isAdmin);
-            if(!data.isAdmin && location.pathname.startsWith('/admin')){
-                navigate('/')
-                toast.error('you are not authorized to access admin dashboard')           
+            setAdmin(data.isAdmin);
+            if (!data.isAdmin && location.pathname.startsWith('/admin')) {
+                navigate('/');
+                toast.error('You are not authorized to access admin dashboard');
             }
-        } catch(error) {
+        } catch (error) {
             console.error("Error checking admin:", error);
             setAdmin(false);
         }
     };
-    const fetchShows = async ()=>{
-        try{
-            const{ data }=await axios.get('./api/show/all')
-            if(data.success){
-                setShows(data.shows)
-            }else{
-                toast.error(data.message)
-            }
-            
-        }catch(error){
-            console.error(error)
-        }
-    }
 
-    const fetchFavoriteMovies =async()=>{
-        try{
-            const{data} =await axios.get('/api/user/favorites',{headers:{Authorization:`Bearer ${await getToken()}`}})
-            if(data.success){
-                setFavoriteMovies(data.movies)
-            }else{
-                toast.error(data.message)
+    const fetchShows = async () => {
+        try {
+            const { data } = await axios.get('/api/show/all');
+            if (data.success) {
+                setShows(data.shows);
+            } else {
+                toast.error(data.message);
             }
+        } catch (error) {
+            console.error(error);
         }
-        catch(error){
-            console.error(error)
-        }
-    }
+    };
 
-    useEffect (()=>{
-        fetchShows()
-    })
+    const fetchFavoriteMovies = async () => {
+        try {
+            const { data } = await axios.get('/api/user/favorites', {
+                headers: { Authorization: `Bearer ${await getToken()}` }
+            });
+            if (data.success) {
+                setFavoriteMovies(data.movies);
+            } else {
+                toast.error(data.message);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        fetchShows();
+    }, []);
 
     useEffect(() => {
         if (user) {
             fetchIsAdmin();
-            fetchFavoriteMovies()
+            fetchFavoriteMovies();
         }
     }, [user]);
 
     const value = {
         axios,
         fetchIsAdmin,
-        use,getToken,navigate,isAdmin,shows,
-        favoriteMovies,fetchFavoriteMovies
+        user,
+        getToken,
+        navigate,
+        isAdmin,
+        shows,
+        favoriteMovies,
+        fetchFavoriteMovies,
+        image_base_url,
     };
 
     return (
