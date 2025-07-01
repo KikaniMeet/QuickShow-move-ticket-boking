@@ -4,12 +4,13 @@ import FeaturedSection from "../components/FeaturedSection";
 import TrailersSection from "../components/TrailersSection";
 
 const Home = () => {
-  return(
+  return (
     <>
-        <HeroSection />
-        <FeaturedSection/>
-        <TrailersSection />
+      <HeroSection />
+      <FeaturedSection />
+      <TrailersSection />
     </>
-  )
-}
+  );
+};
+
 export default Home;
