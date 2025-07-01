@@ -5,6 +5,7 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(),tailwindcss()],
+  base:process.env.vITE_BASE_url || "/QuickShow-move-ticket-boking",
   optimizeDeps: {
     force: true
   }
