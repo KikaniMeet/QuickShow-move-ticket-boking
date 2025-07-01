@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 
 const connectDB = async () => {
   try {
-    // Optional: Add once to avoid multiple listeners
     mongoose.connection.once('connected', () => {
       console.log('✅ MongoDB connected');
     });
@@ -11,11 +10,11 @@ const connectDB = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-
   } catch (error) {
-    console.error('❌ MongoDB connection error:', error.message);
-    process.exit(1); // Optional: Exit on failure
+    console.error('❌ MongoDB connection error:', error); // log full error
+    process.exit(1);
   }
 };
+
 
 export default connectDB;
