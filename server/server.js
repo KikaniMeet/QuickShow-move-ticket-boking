@@ -38,8 +38,8 @@ const startServer = async () => {
     app.use('/api/user', userRouter);
 
     // Start server
-    app.listen(PORT, () => {
-      console.log(`✅ server running on port ${PORT}`);
+    app.listen(process.env.PORT, () => {
+      console.log(`✅ Server running on port ${process.env.PORT}`);
     });
 
   } catch (error) {
