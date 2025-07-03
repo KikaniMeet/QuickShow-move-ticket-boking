@@ -38,8 +38,8 @@ const startServer = async () => {
     app.use('/api/user', userRouter);
 
     // Start server
-      app.listen(PORT, '0.0.0.0', () => {
-      console.log(`🚀 Server running at http://0.0.0.0:${PORT}`);
+      app.listen(PORT, 'localhost', () => {
+      console.log(`🚀 Server running at http://localhost:${PORT}`);
     });
   } catch (error) {
     console.error('❌ Failed to start server:', error.message);
