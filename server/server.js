@@ -11,7 +11,7 @@ import adminRouter from './routes/adminRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import showRouter from './routes/showRoutes.js';
 import { stripeWebhooks } from './controllers/stripeWebhooks.js';
-import uploadRouter from './routes/uploadRoutes.js';
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -36,7 +36,6 @@ const startServer = async () => {
     app.use('/api/booking', bookingRouter);
     app.use('/api/admin', adminRouter);
     app.use('/api/user', userRouter);
-    app.use('/api/upload', uploadRouter);
 
     // Start server
       app.listen(PORT, '0.0.0.0', () => {
