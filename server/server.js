@@ -14,7 +14,7 @@ import { stripeWebhooks } from './controllers/stripeWebhooks.js';
 
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3000;
 
 const startServer = async () => {
   try {
@@ -38,9 +38,10 @@ const startServer = async () => {
     app.use('/api/user', userRouter);
 
     // Start server
-      app.listen(PORT, 'localhost', () => {
-      console.log(`🚀 Server running at http://localhost:${PORT}`);
+    app.listen(PORT, () => {
+      console.log(`✅ server running on port ${PORT}`);
     });
+
   } catch (error) {
     console.error('❌ Failed to start server:', error.message);
     process.exit(1);
