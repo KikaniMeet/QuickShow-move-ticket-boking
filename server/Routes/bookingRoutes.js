@@ -7,4 +7,4 @@ const bookingRouter = express.Router();
 bookingRouter.post('/create', createBooking);
 bookingRouter.get('/seats/:showId', getOccupiedSeats); // ✅ Fixed path
 
-export default bookingRouter;
+export default bookingRouter
