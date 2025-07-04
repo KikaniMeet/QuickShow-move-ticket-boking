@@ -6,7 +6,7 @@ import { clerkMiddleware } from '@clerk/express';
 import { serve } from "inngest/express";
 import { inngest, functions } from "./inngest/index.js";
 
-import bookingRouter from './routes/bookingRoutes.js';
+import bookingRouter from './routes/bookingRoutes.js'; // Comment this if file is missing
 import adminRouter from './routes/adminRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import showRouter from './routes/showRoutes.js';
