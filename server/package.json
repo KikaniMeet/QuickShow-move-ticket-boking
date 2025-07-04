@@ -6,12 +6,19 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "@clerk/express": "^1.7.3",
+    "@clerk/express": "^1.7.4",
+    "axios": "^1.10.0",
     "cors": "^2.8.5",
     "dotenv": "^17.0.1",
     "express": "^5.1.0",
     "inngest": "^3.40.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.16.1"
-  }
+    "mongoose": "^8.16.1",
+    "stripe": "^18.3.0"
+  },
+  "description": "",
+  "main": "server.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
