@@ -1,43 +1,53 @@
+// server.js
+
 import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
 import connectDB from './configs/db.js';
+
 import { clerkMiddleware } from '@clerk/express';
 import { serve } from "inngest/express";
 import { inngest, functions } from "./inngest/index.js";
 
-import bookingRouter from './routes/bookingRoutes.js'; // Comment this if file is missing
+// Routes and Controllers
+import bookingRouter from './routes/bookingRoutes.js';
 import adminRouter from './routes/adminRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import showRouter from './routes/showRoutes.js';
 import { stripeWebhooks } from './controllers/stripeWebhooks.js';
 
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Start server function
 const startServer = async () => {
   try {
     // Connect to MongoDB
     await connectDB();
 
-    // Middleware for Stripe Webhooks (must come before express.json)
+    // Stripe Webhook middleware (must come before express.json)
     app.use('/api/stripe', express.raw({ type: 'application/json' }), stripeWebhooks);
 
     // Other middlewares
-    app.use(express.json()); // Only after /api/stripe
+    app.use(express.json()); // After /api/stripe
     app.use(cors());
     app.use(clerkMiddleware());
 
-    // Routes
-    app.get('/', (req, res) => res.send('Server is Live!'));
+    // Health check route
+    app.get('/', (req, res) => {
+      res.send('🚀 Server is Live!');
+    });
+
+    // Inngest event handling
     app.use('/api/inngest', serve({ client: inngest, functions }));
+
+    // API Routes
     app.use('/api/show', showRouter);
-    app.use('/api/booking',bookingRouter);
+    app.use('/api/booking', bookingRouter);
     app.use('/api/admin', adminRouter);
     app.use('/api/user', userRouter);
 
-    // Start server
+    // Start the server
     app.listen(PORT, '0.0.0.0', () => {
       console.log(`✅ Server running at http://0.0.0.0:${PORT}`);
     });
@@ -48,4 +58,5 @@ const startServer = async () => {
   }
 };
 
+// Run the server
 startServer();
