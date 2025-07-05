@@ -3,14 +3,14 @@
 import express from 'express';
 import { createBooking, getOccupiedSeats } from '../controllers/bookingController.js';
 
-const BookingRouter = express.Router();
+const bookingRouter = express.Router();
 
 // @route   POST /api/booking/create
 // @desc    Create a new booking
-BookingRouter.post('/create', createBooking);
+bookingRouter.post('/create', createBooking);
 
 // @route   GET /api/booking/seats/:showId
 // @desc    Get occupied seats for a show
-BookingRouter.get('/seats/:showId', getOccupiedSeats);
+bookingRouter.get('/seats/:showId', getOccupiedSeats);
 
-export default BookingRouter;
+export default bookingRouter;
