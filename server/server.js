@@ -10,7 +10,7 @@ import { serve } from "inngest/express";
 import { inngest, functions } from "./inngest/index.js";
 
 // Routes and Controllers
-import bookingRouter from './routes/bookingRoutes.js';
+import BookingRouter from './routes/BookingRoutes.js';
 import adminRouter from './routes/adminRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import showRouter from './routes/showRoutes.js';
@@ -43,7 +43,7 @@ const startServer = async () => {
 
     // API Routes
     app.use('/api/show', showRouter);
-    app.use('/api/booking', bookingRouter);
+    app.use('/api/booking', BookingRouter);
     app.use('/api/admin', adminRouter);
     app.use('/api/user', userRouter);
 
