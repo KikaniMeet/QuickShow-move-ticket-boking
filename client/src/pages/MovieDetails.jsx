@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
 import toast from "react-hot-toast";
 import BlurCircle from "../components/BlurCircle";
-import DateSelect from "../components/DateSelect";
+import DateSelect from "../components/Dateselect";
 import MovieCard from "../components/MovieCard";
 import Loading from "../components/Loading";
 import { StarIcon, Heart, PlayCircleIcon } from "lucide-react";
