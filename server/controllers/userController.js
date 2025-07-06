@@ -2,11 +2,10 @@ import { clerkClient } from "@clerk/express";
 import Booking from "../models/Booking.js";
 import Movie from "../models/Movie.js";
 
-
 export const getUserBookings = async (req, res) => {
     try {
-        const user = await req.auth().userId;
-        const bookings = await Booking.find({ user }).populate({
+        const { userId } = await req.auth(); // ✅ await it
+        const bookings = await Booking.find({ user: userId }).populate({
             path: "show",
             populate: { path: "movie" }
         }).sort({ createdAt: -1 });
@@ -20,8 +19,8 @@ export const getUserBookings = async (req, res) => {
 
 export const updateFavorite = async (req, res) => {
     try {
+        const { userId } = await req.auth(); // ✅ await it
         const { movieId } = req.body;
-        const userId = req.auth().userId;
 
         const user = await clerkClient.users.getUser(userId);
         if (!user.privateMetadata.favorites) {
@@ -48,11 +47,11 @@ export const updateFavorite = async (req, res) => {
 
 export const getFavorites = async (req, res) => {
     try {
-        const user = await clerkClient.users.getUser(req.auth().userId);
+        const { userId } = await req.auth(); // ✅ await it
+        const user = await clerkClient.users.getUser(userId);
         const favorites = user.privateMetadata.favorites || [];
 
         const movies = await Movie.find({ tmdbId: { $in: favorites } }); 
-
 
         res.json({ success: true, movies });
 
