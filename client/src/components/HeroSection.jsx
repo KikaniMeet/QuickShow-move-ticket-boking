@@ -1,12 +1,15 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { ArrowRight, CalendarIcon, ClockIcon } from "lucide-react";
 import { assets } from "../assets/assets";
 
 const HeroSection = () => {
+    const navigate = useNavigate();
+
     return (
         <div className='flex flex-col items-start justify-center gap-4 px-6 md:px-16 lg:px-36 bg-[url("/backgroundImage.png")] bg-cover bg-center h-screen'>
             <img src={assets.marvelLogo} alt="" className="max-h-11 lg:h-11 mt-20" />
-            <h1 className='text-5xl md:text-[70px] md:leading-18 font-semibold max-w-110'>
+            <h1 className='text-5xl md:text-[70px] md:leading-18 font-semibold max-w-[440px]'>
                 Guardians <br /> of the Galaxy
             </h1>
 
@@ -21,10 +24,17 @@ const HeroSection = () => {
                     <span>2h 30min</span>
                 </div>
             </div>
-            <p className='max-w-md text-gray-300 '>In a post-apocalyptic world where cities ride on wheels and consume each other to survive,two people meet in london and try to stop a conspiracy</p>
-            <button onClick={()=>Navigate('/')} className="flex items-center gap-1 px-6 py-3 text-sm bg-red-500 hover:bg-red-400 transition rounded-full font-medium cursor-pointer">
+
+            <p className='max-w-md text-gray-300'>
+                In a post-apocalyptic world where cities ride on wheels and consume each other to survive, two people meet in London and try to stop a conspiracy.
+            </p>
+
+            <button
+                onClick={() => navigate('/')}
+                className="flex items-center gap-1 px-6 py-3 text-sm bg-red-500 hover:bg-red-400 transition rounded-full font-medium cursor-pointer"
+            >
                 Explore Movies
-                <ArrowRight className="w-5 h-5"/>
+                <ArrowRight className="w-5 h-5" />
             </button>
         </div>
     );

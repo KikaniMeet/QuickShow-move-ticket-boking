@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
 import toast from "react-hot-toast";
 import BlurCircle from "../components/BlurCircle";
-import DateSelect from "../components/Dateselect"
+import DateSelect from "../components/DateSelect";
 import MovieCard from "../components/MovieCard";
 import Loading from "../components/Loading";
 import { StarIcon, Heart, PlayCircleIcon } from "lucide-react";
@@ -44,6 +44,7 @@ const MovieDetails = () => {
   };
 
   const handleFavorite = async () => {
+
     try {
       if (!user) return toast.error("Please login to proceed");
 
@@ -70,7 +71,7 @@ const MovieDetails = () => {
   if (loading) return <Loading />;
 
   return show ? (
-    <div className="px-6 md:px-16 lg:px-40 pt-[120px] md:pt-[200px]">
+    <div className="px-6 md:px-16 lg:px-40 pt-30 md:pt-50">
       <div className="flex flex-col md:flex-row gap-8 max-w-6xl mx-auto relative">
         <img
           src={image_base_url + show.movie.poster_path}
@@ -152,7 +153,7 @@ const MovieDetails = () => {
           <button
             onClick={() => {
               navigate("/movies");
-              window.scrollTo(0, 0);
+              scrollTo(0, 0);
             }}
             className="px-10 py-3 text-sm bg-red-500 hover:bg-red-600 transition rounded-md font-medium cursor-pointer"
           >

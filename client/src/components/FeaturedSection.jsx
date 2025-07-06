@@ -7,7 +7,7 @@ import { useAppContext } from "../context/AppContext";
 
 const FeaturedSection = () => {
 
-    const navigate =useNavigate()
+    const navigate=useNavigate()
     const{shows}=useAppContext()
 
     return (

@@ -10,7 +10,7 @@ const Navbar = () => {
     const { user } = useUser();
     const { openSignIn } = useClerk();
 
-    const navigate =useNavigate()
+    const navigate = useNavigate()
     const {favoriteMovies}=useAppContext()
 
     return (
