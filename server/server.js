@@ -10,7 +10,7 @@ import { serve } from "inngest/express";
 import { inngest, functions } from "./inngest/index.js";
 
 // Routes and Controllersb
-import bookingRoutes from './routes/bookingRoutes.js';
+import bookingRoutes from '/routes/bookingRoutes.js';
 import adminRouter from './routes/adminRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import showRouter from './routes/showRoutes.js';
