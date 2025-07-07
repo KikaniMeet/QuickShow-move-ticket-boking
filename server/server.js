@@ -1,40 +1,62 @@
+// server.js
+
 import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
 import connectDB from './configs/db.js';
-import { clerkMiddleware } from '@clerk/express'
+
+import { clerkMiddleware } from '@clerk/express';
 import { serve } from "inngest/express";
 import { inngest, functions } from "./inngest/index.js";
-import bookingRoutes from './routes/bokingRoutes.js';
+
+// Routes and Controllersb
+import bookingRouter from './routes/bookingRoutes.js';
 import adminRouter from './routes/adminRoutes.js';
-import userRouter from './routes/userRoutes.js'
-import showRouter from './routes/showRoutes.js'; 
+import userRouter from './routes/userRoutes.js';
+import showRouter from './routes/showRoutes.js';
 import { stripeWebhooks } from './controllers/stripeWebhooks.js';
 
-
 const app = express();
-const Port = 3000;
+const PORT = process.env.PORT || 3000;
 
-(async () => {
+// Start server function
+const startServer = async () => {
+  try {
+    // Connect to MongoDB
+    await connectDB();
 
-    app.use('/api/stripe',express.raw({type:'application/json'}),stripeWebhooks)
+    // Stripe Webhook middleware (must come before express.json)
+    app.use('/api/stripe', express.raw({ type: 'application/json' }), stripeWebhooks);
 
-    await connectDB();  
-    app.use(express.json());
+    // Other middlewares
+    app.use(express.json()); // After /api/stripe
     app.use(cors());
-    app.use(clerkMiddleware())
+    app.use(clerkMiddleware());
 
-    // Routes
-    app.get('/', (req, res) => res.send('Server is Live!'));
-    app.use('/api/inngest', serve({ client: inngest, functions }))  
-    app.use('/api/show',showRouter)
-    app.use('/api/booking',bookingRoutes)
-    app.use('/api/admin',adminRouter)
-    app.use('/api/user',userRouter)
+    // Health check route
+    app.get('/', (req, res) => {
+      res.send('🚀 Server is Live!');
+    });
 
+    // Inngest event handling
+    app.use('/api/inngest', serve({ client: inngest, functions }));
 
+    // API Routes
+    app.use('/api/show', showRouter);
+    app.use('/api/booking', bookingRouter);
+    app.use('/api/admin', adminRouter);
+    app.use('/api/user', userRouter);
 
+    // Start the server
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`✅ Server running at http://0.0.0.0:${PORT}`);
+    });
 
-    // Start server
-    app.listen(Port, () => console.log(`Server listening at http://localhost:${Port}`));
-})();
+  } catch (error) {
+    console.error('❌ Failed to start server:', error.message);
+    process.exit(1);
+  }
+};
+
+// Run the server
+startServer();
