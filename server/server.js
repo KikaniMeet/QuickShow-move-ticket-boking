@@ -8,7 +8,7 @@ import { inngest, functions } from "./inngest/index.js";
 import bookingRoutes from './routes/bookingRoutes.js';
 import adminRouter from './routes/adminRoutes.js';
 import userRouter from './routes/userRoutes.js'
-import showRouter from './routes/showRoutes.js';
+import showRouter from './routes/showRoutes.js'; 
 import { stripeWebhooks } from './controllers/stripeWebhooks.js';
 
 
