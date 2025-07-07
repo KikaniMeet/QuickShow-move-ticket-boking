@@ -48,8 +48,8 @@ const startServer = async () => {
     app.use('/api/user', userRouter);
 
     // Start the server
-    app.listen(PORT, '0.0.0.0', () => {
-      console.log(`✅ Server running at http://0.0.0.0:${PORT}`);
+    app.listen(PORT, 'lockalhost', () => {
+      console.log(`✅ Server running at http://locklhost:${PORT}`);
     });
 
   } catch (error) {
