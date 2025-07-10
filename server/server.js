@@ -10,7 +10,7 @@ import { serve } from "inngest/express";
 import { inngest, functions } from "./inngest/index.js";
 
 // Routes and Controllersb
-import bookingRoutes from '/routes/bookingRoutes.js';
+import BookingRoutes from './routes/bookingRoutes.js';
 import adminRouter from './routes/adminRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import showRouter from './routes/showRoutes.js';
@@ -22,14 +22,9 @@ const PORT = process.env.PORT || 3000;
 // Start server function
 const startServer = async () => {
   try {
-    // Connect to MongoDB
     await connectDB();
-
-    // Stripe Webhook middleware (must come before express.json)
     app.use('/api/stripe', express.raw({ type: 'application/json' }), stripeWebhooks);
-
-    // Other middlewares
-    app.use(express.json()); // After /api/stripe
+    app.use(express.json()); 
     app.use(cors());
     app.use(clerkMiddleware());
 
@@ -43,13 +38,13 @@ const startServer = async () => {
 
     // API Routes
     app.use('/api/show', showRouter);
-    app.use('/api/booking', bookingRoutes);
+    app.use('/api/booking', BookingRoutes);
     app.use('/api/admin', adminRouter);
     app.use('/api/user', userRouter);
 
     // Start the server
-    app.listen(PORT, 'lockalhost', () => {
-      console.log(`✅ Server running at http://locklhost:${PORT}`);
+    app.listen(PORT, () => {
+      console.log(`✅ Server running at http://localhost:${PORT}`);
     });
 
   } catch (error) {

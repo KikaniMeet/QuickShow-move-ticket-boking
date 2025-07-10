@@ -105,8 +105,8 @@ const AddShows = () => {
 
     useEffect(() => {
         fetchNowPlayingMovies();
-    }, []);
-
+    },[]);
+    
     if (loadingMovies) return <Loading />;
 
     return (
