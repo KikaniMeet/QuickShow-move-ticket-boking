@@ -1,0 +1,32 @@
+node_modules
+# Node.js
+node_modules/
+.env
+dist/
+build/
+coverage/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Vite
+.vite/
+
+# OS-related
+.DS_Store
+Thumbs.db
+
+# Render or deployment
+render.yaml
+
+# VS Code or IDEs
+.vscode/
+.idea/
+
+# Optional: if you have separate frontend/backend folders
+client/node_modules/
+server/node_modules/
+client/dist/
+server/dist/
