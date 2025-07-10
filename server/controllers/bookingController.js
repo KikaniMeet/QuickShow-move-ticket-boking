@@ -49,7 +49,7 @@ export const createBooking = async (req, res) => {
       bookingSeats: selectedSeats,
     });
 
-    // 🪑 Mark seats as booked
+  
     selectedSeats.forEach(seat => {
       showData.occupiedSeats[seat] = userId;
     });
