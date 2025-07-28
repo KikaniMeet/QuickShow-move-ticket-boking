@@ -32,6 +32,8 @@ QuickShow is a full-stack movie ticket booking web application built with the **
 ## 🖼️ Screenshots
 <img width="461" height="224" alt="Image" src="https://github.com/user-attachments/assets/28a2fa62-25c7-40da-a99a-29e6f05f3874" /> <img width="490" height="233" alt="Image" src="https://github.com/user-attachments/assets/14dd5131-8998-4c3d-8318-0e52d8a19e66" />
 
+
+## FIGMA DISIGN :- https://www.figma.com/design/qYz06tL5U6ASdrXwq3yf6z/Untitled?node-id=0-1&t=5ouVgrZ61gLY5j3g-1
 ## ⚙️ Setup Instructions
 . Setup Backend
 cd backend
