@@ -29,6 +29,8 @@ QuickShow is a full-stack movie ticket booking web application built with the **
 - TMDB API
 - Clerk or JWT for authentication
 ---
+## 🖼️ Screenshots
+
 
 ## ⚙️ Setup Instructions
 . Setup Backend
