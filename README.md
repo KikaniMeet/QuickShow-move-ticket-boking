@@ -36,9 +36,9 @@ cd backend
 npm install
 
 .Createa .env
-MONGODB_URI=your_mongodb_connection_string
-TMDB_API_KEY=your_tmdb_api_key
-JWT_SECRET=your_jwt_secret
+MONGODB_URI=your_mongodb_connection_string ,
+TMDB_API_KEY=your_tmdb_api_key ,
+JWT_SECRET=your_jwt_secret ,
 CLERK_SECRET_KEY=your_clerk_secret_key   # If using Clerk
 
 Run the server:
