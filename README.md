@@ -30,7 +30,7 @@ QuickShow is a full-stack movie ticket booking web application built with the **
 - Clerk or JWT for authentication
 ---
 ## 🖼️ Screenshots
-
+<img width="561" height="224" alt="Image" src="https://github.com/user-attachments/assets/28a2fa62-25c7-40da-a99a-29e6f05f3874" />
 
 ## ⚙️ Setup Instructions
 . Setup Backend
