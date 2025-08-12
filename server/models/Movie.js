@@ -1,9 +1,8 @@
-// models/Movie.js
 import mongoose from "mongoose";
 
 const movieSchema = new mongoose.Schema(
   {
-    tmdbId: { type: String, required: true, unique: true },
+    _id: { type: String, required: true },
     title: { type: String, required: true },
     overview: { type: String, required: true },
     poster_path: { type: String, required: true },
@@ -20,4 +19,5 @@ const movieSchema = new mongoose.Schema(
 );
 
 const Movie = mongoose.model("Movie", movieSchema);
+
 export default Movie;

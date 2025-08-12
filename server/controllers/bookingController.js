@@ -1,108 +1,116 @@
+import { inngest } from "../inngest/index.js";
 import Booking from "../models/Booking.js";
 import Show from "../models/Show.js";
-import Stripe from 'stripe';
+import stripe from "stripe";
 
-// ✅ Seat availability checker
+// Function to check availability of selected seats for a movie
 const checkSeatsAvailability = async (showId, selectedSeats) => {
   try {
     const showData = await Show.findById(showId);
     if (!showData) return false;
 
-    const occupiedSeats = showData.occupiedSeats || {};
-    const isAnySeatTaken = selectedSeats.some(seat => occupiedSeats[seat]);
+    const occupiedSeats = showData.occupiedSeats;
+
+    const isAnySeatTaken = selectedSeats.some((seat) => occupiedSeats[seat]);
 
     return !isAnySeatTaken;
   } catch (error) {
-    console.log("Seat Availability Error:", error.message);
+    console.log(error.message);
     return false;
   }
 };
 
-// ✅ Create Booking Endpoint
 export const createBooking = async (req, res) => {
   try {
-    const { userId } = req.auth(); // Clerk Auth (middleware)
+    const { userId } = req.auth();
     const { showId, selectedSeats } = req.body;
     const { origin } = req.headers;
 
-    if (!userId || !showId || !Array.isArray(selectedSeats) || !selectedSeats.length) {
-      return res.status(400).json({ success: false, message: "Invalid booking input." });
-    }
-
+    // Check if the seat is available for the selected show
     const isAvailable = await checkSeatsAvailability(showId, selectedSeats);
+
     if (!isAvailable) {
-      return res.json({ success: false, message: "❌ Selected Seats are not available." });
+      return res.json({
+        success: false,
+        message: "Selected Seats are not available.",
+      });
     }
 
-    const showData = await Show.findById(showId).populate('movie');
-    if (!showData) {
-      return res.status(404).json({ success: false, message: "Show not found." });
-    }
+    // Get the show details
+    const showData = await Show.findById(showId).populate("movie");
 
-    const amount = showData.showPrice * selectedSeats.length;
-
-    // 🧾 Create booking in DB first
+    // Create a new booking
     const booking = await Booking.create({
       user: userId,
       show: showId,
-      amount,
-      bookingSeats: selectedSeats,
+      amount: showData.showPrice * selectedSeats.length,
+      bookedSeats: selectedSeats,
     });
 
-  
-    selectedSeats.forEach(seat => {
+    selectedSeats.map((seat) => {
       showData.occupiedSeats[seat] = userId;
     });
-    showData.markModified('occupiedSeats');
+
+    showData.markModified("occupiedSeats");
+
     await showData.save();
 
-    // 💳 Stripe Checkout
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+    // Stripe Gateway Initialize
+    const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY);
 
-    const session = await stripe.checkout.sessions.create({
+    // Creating line items for Stripe
+    const line_items = [
+      {
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: showData.movie.title,
+          },
+          unit_amount: Math.floor(booking.amount) * 100,
+        },
+        quantity: 1,
+      },
+    ];
+
+    const session = await stripeInstance.checkout.sessions.create({
       success_url: `${origin}/loading/my-bookings`,
       cancel_url: `${origin}/my-bookings`,
-      line_items: [
-        {
-          price_data: {
-            currency: 'usd',
-            product_data: {
-              name: showData.movie.title,
-            },
-            unit_amount: Math.floor(amount * 100),
-          },
-          quantity: 1,
-        },
-      ],
-      mode: 'payment',
+      line_items: line_items,
+      mode: "payment",
       metadata: {
+        bookingId: booking._id.toString(),
+      },
+      expires_at: Math.floor(Date.now() / 1000) + 30 * 60, // Expires in 30 minutes
+    });
+
+    booking.paymentLink = session.url;
+    await booking.save();
+
+    // Run Inngest Scheduler Function to check payment status after 10 minutes
+    await inngest.send({
+      name: "app/checkpayment",
+      data: {
         bookingId: booking._id.toString(),
       },
     });
 
-    booking.paymentLink = session.url;
-    await booking.save(); // 🛠️ Fix typo (was `.seve()`)
-
-    res.json({ success: true, url: session.url, booking });
+    res.json({ success: true, url: session.url });
   } catch (error) {
-    console.error("Create Booking Error:", error.message);
-    res.status(500).json({ success: false, message: error.message });
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
   }
 };
 
-// ✅ Get Occupied Seats
 export const getOccupiedSeats = async (req, res) => {
   try {
     const { showId } = req.params;
     const showData = await Show.findById(showId);
-    if (!showData) {
-      return res.status(404).json({ success: false, message: "Show not found." });
-    }
 
-    const occupiedSeats = Object.keys(showData.occupiedSeats || {});
+    const occupiedSeats = Object.keys(showData.occupiedSeats);
+
     res.json({ success: true, occupiedSeats });
   } catch (error) {
-    console.log("Get Occupied Seats Error:", error.message);
-    res.status(500).json({ success: false, message: error.message });
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
   }
 };

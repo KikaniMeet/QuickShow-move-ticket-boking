@@ -1,44 +1,44 @@
-import React, { useState } from "react";
-import ReactPlayer from "react-player";
+import { useState } from "react";
 import { dummyTrailers } from "../assets/assets";
+import ReactPlayer from "react-player";
 import BlurCircle from "./BlurCircle";
-import { PlayCircle } from "lucide-react";
+import { PlayCircleIcon } from "lucide-react";
 
 const TrailersSection = () => {
   const [currentTrailer, setCurrentTrailer] = useState(dummyTrailers[0]);
 
   return (
     <div className="px-6 md:px-16 lg:px-24 xl:px-44 py-20 overflow-hidden">
-      <p className="text-gray-300 font-medium text-lg max-w-[960px]">Trailers</p>
+      <p className="text-gray-300 font-medium text-lg max-w-[960] mx-auto">
+        Trailers
+      </p>
 
-      {/* Main Player */}
       <div className="relative mt-6">
         <BlurCircle top="-100px" right="-100px" />
         <ReactPlayer
           url={currentTrailer.videoUrl}
-          controls={true}
-          className="mx-auto max-w-full rounded-xl overflow-hidden"
+          controls={false}
+          className="mx-auto max-w-full"
           width="960px"
           height="540px"
         />
       </div>
 
-      {/* Thumbnails */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-8 mt-8 max-w-3xl mx-auto">
-        {dummyTrailers.map((trailer, index) => (
+      <div className="group grid grid-cols-4 gap-4 md:gap-8 mt-8 max-w-3xl mx-auto">
+        {dummyTrailers.map((trailer) => (
           <div
-            key={index}
-            className="relative group cursor-pointer transition duration-300 hover:-translate-y-1"
+            key={trailer.image}
+            className="relative group-hover:not-hover:opacity-50 hover:-translate-y-1 duration-300 transition max-md:h-60 md:max-h-60 cursor-pointer"
             onClick={() => setCurrentTrailer(trailer)}
           >
             <img
               src={trailer.image}
-              alt={`trailer-${index}`}
-              className="rounded-lg w-full h-full object-cover brightness-75 group-hover:brightness-50"
+              alt="trailer"
+              className="rounded-lg w-full h-full object-cover brightness-75"
             />
-            <PlayCircle
+            <PlayCircleIcon
               strokeWidth={1.6}
-              className="absolute top-1/2 left-1/2 w-10 h-10 md:w-12 md:h-12 text-white transform -translate-x-1/2 -translate-y-1/2"
+              className="absolute top-1/2 left-1/2 w-5 md:w-8 h-5 md:h-12 transform -translate-x-1/2"
             />
           </div>
         ))}
